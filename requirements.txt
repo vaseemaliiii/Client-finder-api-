@@ -1,4 +1,4 @@
-
-fastapi
-uvicorn
-serpapi==0.3.1
+fastapi==0.110.0
+uvicorn==0.29.0
+python-dotenv
+serpapi==0.2.4
