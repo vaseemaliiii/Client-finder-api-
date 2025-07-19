@@ -1,22 +1,19 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from serpapi import GoogleSearch
+from fastapi import FastAPI, Query
+from serpapi.google_search import GoogleSearch
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 app = FastAPI()
 
-class Query(BaseModel):
-    search_query: str
-
-@app.post("/find_client")
-def find_client(data: Query):
+@app.get("/search/")
+def search_clients(query: str = Query(...)):
     params = {
         "engine": "google",
-        "q": data.search_query,
+        "q": query,
         "api_key": os.getenv("SERPAPI_KEY"),
     }
-
     search = GoogleSearch(params)
     results = search.get_dict()
-
-    return {"results": results.get("organic_results", [])}
+    return results
